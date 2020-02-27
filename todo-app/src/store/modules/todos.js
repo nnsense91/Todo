@@ -17,6 +17,9 @@ const todos = {
 		},
 		filterTodos(state, filter) {			
 			state.filter = filter;
+		},
+		clearTasks(state) {
+			state.todos = [];
 		}
 	},
 	actions: {},

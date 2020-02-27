@@ -13,12 +13,6 @@ import todoList from './todoList';
 import { mapState } from 'vuex';
 
 export default {
-	data() {
-		return {
-			// todos: [],
-			// filter: 'all'
-		}
-	},
 	components: {
 		todoInput,
 		todoList

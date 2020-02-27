@@ -11,11 +11,15 @@
 				.counter {{todos.length}} items left
 				.filter
 					todoListFilter
+				button(
+					@click="clearAllTasks"
+				).clear clear all
 </template>
 
 <script>
 import todoListFilter from './todoListFilter';
 import todoListItem from './todoListItem';
+import { mapMutations } from 'vuex';
 
 export default {
 	props:{
@@ -26,12 +30,10 @@ export default {
 		todoListItem
 	},
 	methods: {
-		checkTodo(todoItem) {
-			this.$emit('checkTodo', todoItem);
+	...mapMutations(['clearTasks']),
+		clearAllTasks() {
+			this.clearTasks();
 		},
-		filterTodos(filter) {
-			this.$emit('filterTodos', filter);
-		}
 	}
 }
 </script>
@@ -77,6 +79,22 @@ export default {
 
 	.filter {
 		flex: 1;
+	}
+
+	.clear {
+		border: 1px solid transparent;
+		border-radius: 4px;
+		background: transparent;
+		font-weight: 600;
+		cursor: pointer;
+
+		&:hover {
+			font-weight: 600;
+			background: #f55;
+			color: #fff;
+		}
+
+		transition: 0.3s;
 	}
 
 </style>
