@@ -4,32 +4,39 @@
 			.input-block
 				input(
 					type="checkbox"
-					@change="checkTodo"
+					@change="checkTodoAsCompleted"
 					:checked="todo.checked"
 				).input
 			.title {{todo.name}}
 		.button
+			router-link(
+				tag="button"
+				:to="`/view/${todo.name}`"
+			).view details
 			button(
 				type="button"
-				@click="removeTodo"
+				@click="removeExistedTodo"
 			).remove x
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
 	props: {
 		todo: Object
 	},
 	methods: {
-		removeTodo() {
-			this.$emit('removeTodo', this.todo.id);
+		...mapMutations(['removeTodo', 'checkTodo']),
+		removeExistedTodo() {
+			this.removeTodo(this.todo.id);
 		},
-		checkTodo(e) {			
+		checkTodoAsCompleted(e) {
 			const todoItem = {
 				...this.todo,
 				checked: e.target.checked
 			}
-			this.$emit('checkTodo', todoItem);
+			this.checkTodo(todoItem);
 		}
 	}
 }
@@ -42,9 +49,15 @@ export default {
 		align-items: center;
 		
 		&:hover {
+
 			.remove {
 				visibility: visible;
 			}
+
+			.view {
+				visibility: visible;
+			}
+
 		}
 	}
 
@@ -69,7 +82,7 @@ export default {
 	}
 
 	.button {
-		width: 40px;
+		display: flex;
 	}
 
 	.remove {
@@ -79,5 +92,28 @@ export default {
 		cursor: pointer;
 		font-size: 20px;
 		visibility: hidden;
+		border: 1px solid transparent;
+		border-radius: 4px;
+
+		&:hover {
+			border: 1px solid grey;
+		}
+		transition: border 0.4s;
+	}
+
+	.view {
+		visibility: hidden;
+		border: 1px solid transparent;
+		border-radius: 4px;
+		background: transparent;
+		font-weight: 500;
+		cursor: pointer;
+		white-space: nowrap;
+		margin-right: 20px;
+
+		&:hover {
+			border: 1px solid grey;
+		}
+		transition: border 0.4s;
 	}
 </style>

@@ -3,20 +3,26 @@
 		button(
 			v-for="filter in filters"
 			type="button"
-			@click="filterTodos(filter)"
+			:class="{active: currentFilter === filter}"
+			@click="filterCurrentTodos(filter)"
 		) {{filter}}
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
 	data() {
 		return {
-			filters: ['all', 'active', 'completed']
+			filters: ['all', 'active', 'completed'],
+			currentFilter: 'all'
 		}
 	},
 	methods: {
-		filterTodos(filter) {
-			this.$emit('filterTodos', filter)
+		...mapMutations(['filterTodos']),
+		filterCurrentTodos(filter) {
+			this.currentFilter = filter;
+			this.filterTodos(filter);
 		}
 	}
 }
